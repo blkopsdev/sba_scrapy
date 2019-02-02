@@ -24,23 +24,26 @@ class SbaPipeline(object):
         return method(item)
 
     def sba(self, item):
+
         try:
             self.cursor.execute(
-                """INSERT INTO economic_group (naics_id, state, economic_group, num_of_firms) 
+                """SELECT id FROM naics WHERE naics = %s""", (item['naics'],)
+            )
+            results = self.cursor.fetchall()
+            for row in results:
+                naics_id = row[0]
+
+        except:
+            print "Error: unable to fecth data"
+
+        try:
+            self.cursor.execute(
+                """INSERT INTO economic_group ( economic_group, naics_id, state, num_of_firms)
                 VALUES (%s, %s, %s, %s)""", (
-                    item['E-mail Address:'],
-                    item['WWW Page:'],
-                    item['E-Commerce Website:'],
-                    item['Contact Person:'],
-                    item['County Code (3 digit):'],
-                    item['Congressional District:'],
-                    item['Metropolitan Statistical Area:'],
-                    item['CAGE Code:'],
-                    item['Year Established:'],
-                    item['Naicses'],
-                    item['keywords'],
-                    item['naics_codes'],
-                    item['state']
+                    item['econ'],
+                    naics_id,
+                    item['State:'],
+                    item['number_of_firms']
                 )
             )
 

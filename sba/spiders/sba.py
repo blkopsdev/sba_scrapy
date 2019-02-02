@@ -2,22 +2,6 @@ import scrapy
 from urlparse import urljoin
 import re
 import json
-import mysql.connector
-from mysql.connector import errorcode
-try:
-    cnx = mysql.connector.connect(user='root', password='root',
-                              host='127.0.0.1',
-                              database='scrapy')
-except mysql.connector.Error as err:
-    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-        print("Something is wrong with your user name or password")
-    elif err.errno == errorcode.ER_BAD_DB_ERROR:
-        print("Database does not exist")
-    else:
-        print(err)
-else:
-    cnx.close()
-
 
 
 class SbaSpider(scrapy.Spider):
@@ -59,7 +43,8 @@ class SbaSpider(scrapy.Spider):
             number_of_firms = g.xpath('./following-sibling::div[contains(@class, "qmsinfo")]/a[@href]/text()').extract_first()
             if key and number_of_firms:
                 response.meta.update({
-                    'econmic_key': key
+                    'econmic_key': key,
+                    'number_of_firms': number_of_firms
                 })
             link = g.xpath('./following-sibling::div[contains(@class, "qmsinfo")]/a[@href]/@href').extract_first()
             key = re.search(r'javascript:document\.HotlinkForm\.(.*?)\.value', link)
@@ -132,6 +117,7 @@ class SbaSpider(scrapy.Spider):
 
         info = {
             'econ': response.meta.get('econmic_key'),
+            'number_of_firms': response.meta.get('number_of_firms'),
             'profile_table': response.meta.get('profile_table'),
             'naics': response.meta.get('naics', '').encode('utf-8'),
             'state_code': response.meta.get('State', '').encode('utf-8'),
