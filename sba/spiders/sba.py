@@ -60,31 +60,58 @@ class SbaSpider(scrapy.Spider):
 
                 naics = response.meta.get('naics')
                 state = response.meta.get('State')
+                # Get Naics ID from naics table
                 try:
                     self.cursor.execute(
                         """SELECT id FROM naics WHERE naics = %s""", (naics,)
                     )
                     results = self.cursor.fetchall()
                     naics_id = results[0][0]
-
                 except:
-                    print "Error: unable to fecth data"
-
+                    print "Error: unable to fecth naics data"
+                # Update or Insert econmic_group
                 try:
                     self.cursor.execute(
-                        """INSERT INTO economic_group ( economic_group, naics_id, state, num_of_firms)
-                        VALUES (%s, %s, %s, %s)""", (
-                            key,
-                            naics_id,
-                            state,
-                            number_of_firms
-                        )
+                        """SELECT id FROM economic_group WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
                     )
+                    ecom = self.cursor.fetchall()
 
-                    self.conn.commit()
+                    if not ecom:
+                        try:
+                            self.cursor.execute(
+                                """INSERT INTO economic_group ( economic_group, naics_id, state, num_of_firms)
+                                VALUES (%s, %s, %s, %s)""", (
+                                    key,
+                                    naics_id,
+                                    state,
+                                    number_of_firms
+                                )
+                            )
+                            self.conn.commit()
+                            self.cursor.execute(
+                                """SELECT id FROM economic_group WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
+                            )
+                            ecom = self.cursor.fetchall()
+                            economic_id = ecom[0][0]
 
-                except MySQLdb.Error, e:
-                    print("Error %d: %s" % (e.args[0], e.args[1]))
+                        except MySQLdb.Error, e:
+                            print("Error %d: %s" % (e.args[0], e.args[1]))
+                    else:
+                        economic_id = ecom[0][0]
+
+                    response.meta.update({
+                        'economic_id': economic_id
+                    })
+                    #     try:
+                    #         self.cursor.execute(
+                    #             """UPDATE economic_group SET num_of_firms = %s WHERE id = $d""", (number_of_firms, economic_id,)
+                    #         )
+                    #         self.conn.commit()
+                    #     except MySQLdb.Error, e:
+                    #         print("Error %d: %s" % (e.args[0], e.args[1]))
+
+                except:
+                    print "Error: unable to fecth economic group data"
 
             link = g.xpath('./following-sibling::div[contains(@class, "qmsinfo")]/a[@href]/@href').extract_first()
             key = re.search(r'javascript:document\.HotlinkForm\.(.*?)\.value', link)
@@ -114,7 +141,7 @@ class SbaSpider(scrapy.Spider):
         trs = response.xpath(
             '//table[@id="ProfileTable"]//tr[@class="AlternatingRowBGC4Form1"]'
         )
-
+        economic_id = response.meta.get('economic_id')
 
         for tr in trs:
             datum = {}
@@ -122,15 +149,50 @@ class SbaSpider(scrapy.Spider):
                 value = tr.xpath('.//td[contains(@headers, "{}")]/text()'.format(id)).extract_first()
                 datum[keys[idx]] = value
 
-            response.meta.update({
-                'profile_table': datum
-            })
-            link = tr.xpath('.//a/@href').extract_first()
+                link = tr.xpath('.//a/@href').extract_first()
 
-            yield scrapy.Request(urljoin(response.url, link), callback=self.get_data, dont_filter=True,
+                yield scrapy.Request(urljoin(response.url, link), callback=self.get_data, dont_filter=True,
                                  meta=response.meta)
 
+            # Insert or Update profile list table
+            try:
+                self.cursor.execute(
+                    """SELECT id FROM profile_list WHERE contact = %s AND economic_id = %s""",
+                    (datum['Contact'], economic_id,)
+                )
+                list = self.cursor.fetchall()
 
+                if not list:
+                    try:
+                        self.cursor.execute(
+                            """INSERT INTO profile_list ( trade_name, contact, address, capabilities, economic_id)
+                            VALUES (%s, %s, %s, %s, %s)""", (
+                                datum['Name and Trade Name of Firm'],
+                                datum['Contact'],
+                                datum['Address and City, State Zip'],
+                                datum['Capabilities Narrative'],
+                                economic_id
+                            )
+                        )
+                        self.conn.commit()
+
+                        self.cursor.execute(
+                            """SELECT id FROM profile_list WHERE contact = %s AND economic_id = %s""",
+                            (datum['Contact'], economic_id,)
+                        )
+                        list = self.cursor.fetchall()
+                        list_id = list[0][0]
+                    except MySQLdb.Error, e:
+                        print("Error %d: %s" % (e.args[0], e.args[1]))
+                else:
+                    list_id = list[0][0]
+
+            except:
+                print "Error: unable to fecth profile list data"
+
+            response.meta.update({
+                'list_id': list_id
+            })
 
     def get_data(self, response):
 
