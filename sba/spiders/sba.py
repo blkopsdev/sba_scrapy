@@ -2,13 +2,23 @@ import scrapy
 from urlparse import urljoin
 import re
 import json
-
+import MySQLdb
 
 class SbaSpider(scrapy.Spider):
+
+    def __init__(self):
+        self.conn = MySQLdb.connect(
+            host='localhost',
+            user='root',
+            passwd='root',
+            db='scrapy',
+            charset="utf8",
+            use_unicode=True
+        )
+        self.cursor = self.conn.cursor()
+
     name = "sba"
-
     allowed_domains = ["sba.gov"]
-
     start_urls = [
         "http://web.sba.gov/pro-net/search/dsp_quicksearch.cfm"
     ]
@@ -38,6 +48,7 @@ class SbaSpider(scrapy.Spider):
 
     def parse_search(self, response):
         econmic_group = response.xpath('//div[contains(@class, "qmshead") and a[@href]]')
+
         for g in econmic_group:
             key = g.xpath('.//a/text()').extract_first()
             number_of_firms = g.xpath('./following-sibling::div[contains(@class, "qmsinfo")]/a[@href]/text()').extract_first()
@@ -46,6 +57,35 @@ class SbaSpider(scrapy.Spider):
                     'econmic_key': key,
                     'number_of_firms': number_of_firms
                 })
+
+                naics = response.meta.get('naics')
+                state = response.meta.get('State')
+                try:
+                    self.cursor.execute(
+                        """SELECT id FROM naics WHERE naics = %s""", (naics,)
+                    )
+                    results = self.cursor.fetchall()
+                    naics_id = results[0][0]
+
+                except:
+                    print "Error: unable to fecth data"
+
+                try:
+                    self.cursor.execute(
+                        """INSERT INTO economic_group ( economic_group, naics_id, state, num_of_firms)
+                        VALUES (%s, %s, %s, %s)""", (
+                            key,
+                            naics_id,
+                            state,
+                            number_of_firms
+                        )
+                    )
+
+                    self.conn.commit()
+
+                except MySQLdb.Error, e:
+                    print("Error %d: %s" % (e.args[0], e.args[1]))
+
             link = g.xpath('./following-sibling::div[contains(@class, "qmsinfo")]/a[@href]/@href').extract_first()
             key = re.search(r'javascript:document\.HotlinkForm\.(.*?)\.value', link)
             value = re.search(r'value = \'(.*?)\';', link)
