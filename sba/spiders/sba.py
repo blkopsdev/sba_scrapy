@@ -12,7 +12,7 @@ class SbaSpider(scrapy.Spider):
             host='localhost',
             user='root',
             passwd='root',
-            db='scrapy',
+            db='sba_scrapy',
             charset="utf8",
             use_unicode=True
         )
@@ -259,11 +259,11 @@ class SbaSpider(scrapy.Spider):
                         """INSERT INTO profiles (user_id, name_of_firm, trade_name, duns_num, p_dunms_num, address1, address2, \
                         city, state, zip, phone, fax, email, www_page, ecom_website, county_code, cong_district, ms_area, cage_code,\
                         established_year, gsa_contact, ownership, sba_8a_num, sba_8a_ent, sba_8a_exit,\
-                        ishubzone_cert, hubsone_certdate, 8a_jv_ent, 8a_jv_exit, naics_table, keywords, performance_history, list_id,\
+                        ishubzone_cert, 8a_jv_ent, 8a_jv_exit, naics_table, keywords, performance_history, list_id,\
                         quality_assurance, electronic_data, export_business_activity, exporting_to, bonding_agg, bonding_cont, \
                         con_bonding_agg, con_bonding_cont, accept_card, desired_export_business, export_descrption, business_office) VALUES (%s, %s, %s, %s,\
                         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
-                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
+                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
                             info['User ID:'],
                             info['Name of Firm:'],
                             info['Trade Name ("Doing Business As ..."):'],
@@ -290,7 +290,6 @@ class SbaSpider(scrapy.Spider):
                             info['SBA 8(a) Entrance Date:'],
                             info['SBA 8(a) Exit Date:'],
                             info['HUBZone Certified?:'],
-                            info['HUBZone Certification Date:'],
                             info['8(a) JV Entrance Date:'],
                             info['8(a) JV Exit Date:'],
                             naics_data,
@@ -316,5 +315,5 @@ class SbaSpider(scrapy.Spider):
                     print("Error %d: %s" % (e.args[0], e.args[1]))
                     print traceback.format_exc()
         except:
-            print "Error: unable to fecth profile data"
+            print traceback.format_exc()
         return info
