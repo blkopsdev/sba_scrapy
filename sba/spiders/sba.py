@@ -3,6 +3,7 @@ from urlparse import urljoin
 import re
 import json
 import MySQLdb
+import traceback
 
 class SbaSpider(scrapy.Spider):
 
@@ -26,25 +27,31 @@ class SbaSpider(scrapy.Spider):
     def parse(self, response):
 
         states = response.xpath('//select[@id="EltState"]/option[position()!=1]/@value').extract()
-        naics = '541519'
+        try:
+            self.cursor.execute("""SELECT naics FROM naics""")
+            naicses = self.cursor.fetchall()
 
-        for state in states:
-            data = {
-                'AnyAllNaics': 'All',
-                'naics': naics,
-                'State': state
-            }
-            yield scrapy.FormRequest.from_response(
-                response,
-                formname='SearchForm',
-                formdata=data,
-                callback=self.parse_search,
-                meta={
-                    'naics': naics,
-                    'State': state
-                },
-                dont_filter=True
-            )
+            for naics in naicses:
+                for state in states:
+                    data = {
+                        'AnyAllNaics': 'All',
+                        'naics': naics,
+                        'State': state
+                    }
+                    yield scrapy.FormRequest.from_response(
+                        response,
+                        formname='SearchForm',
+                        formdata=data,
+                        callback=self.parse_search,
+                        meta={
+                            'naics': naics,
+                            'State': state
+                        },
+                        dont_filter=True
+                    )
+        except MySQLdb.Error, e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+
 
     def parse_search(self, response):
         econmic_group = response.xpath('//div[contains(@class, "qmshead") and a[@href]]')
@@ -180,6 +187,7 @@ class SbaSpider(scrapy.Spider):
                     list_id = list[0][0]
 
             except:
+                print traceback.format_exc()
                 print "Error: unable to fecth profile list data"
 
             response.meta.update({
@@ -188,8 +196,8 @@ class SbaSpider(scrapy.Spider):
 
     def get_data(self, response):
 
-        keywords = response.xpath('//h3[contains(text(), "Keywords")]/following-sibling::div[@class="indent_same_as_profilehead"]/text()').extract_first()
-        office = response.xpath('//h3[contains(text(), "Business Development Servicing Office")]/following-sibling::div[@class="indent_same_as_profilehead"]/text()').extract_first()
+        keywords = response.xpath('//h3[contains(text(), "Keywords")]/following-sibling::div[@class="indent_same_as_profilehead"]/text()').extract_first().strip()
+        office = response.xpath('//h3[contains(text(), "Business Development Servicing Office")]/following-sibling::div[@class="indent_same_as_profilehead"]/text()').extract_first().strip()
 
         # naics_codes = response.xpath('//table[@summary="NAICS Codes"]//tr//td[contains(@headers, "C2")]/text()').extract()
         ids = response.xpath(
@@ -243,7 +251,7 @@ class SbaSpider(scrapy.Spider):
             info[key] = value.encode('utf-8')
         try:
             list_id = response.meta.get('list_id')
-            self.cursor.execute("""SELECT id FROM profiles WHERE email = %s AND list_id = %s"""),(info['Email Address:'], list_id,)
+            self.cursor.execute("""SELECT id FROM profiles WHERE email = %s AND list_id = %s""", (info['E-mail Address:'], list_id,))
             profile = self.cursor.fetchall()
             if not profile:
                 try:
@@ -251,7 +259,7 @@ class SbaSpider(scrapy.Spider):
                         """INSERT INTO profiles (user_id, name_of_firm, trade_name, duns_num, p_dunms_num, address1, address2, \
                         city, state, zip, phone, fax, email, www_page, ecom_website, county_code, cong_district, ms_area, cage_code,\
                         established_year, gsa_contact, ownership, sba_8a_num, sba_8a_ent, sba_8a_exit,\
-                        ishubzone_cert, hubsone_certdate, 8a_jv_ent, 8a_jv_exit, naics_table, keywords, performance_history, list_id\
+                        ishubzone_cert, hubsone_certdate, 8a_jv_ent, 8a_jv_exit, naics_table, keywords, performance_history, list_id,\
                         quality_assurance, electronic_data, export_business_activity, exporting_to, bonding_agg, bonding_cont, \
                         con_bonding_agg, con_bonding_cont, accept_card, desired_export_business, export_descrption, business_office) VALUES (%s, %s, %s, %s,\
                         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
@@ -262,7 +270,7 @@ class SbaSpider(scrapy.Spider):
                             info['DUNS Number:'],
                             info['Parent DUNS Number:'],
                             info['Address, line 1:'],
-                            info['Address, line2:'],
+                            info['Address, line 2:'],
                             info['City:'],
                             info['State:'],
                             info['Zip:'],
@@ -274,7 +282,7 @@ class SbaSpider(scrapy.Spider):
                             info['County Code (3 digit):'],
                             info['Congressional District:'],
                             info['Metropolitan Statistical Area:'],
-                            info['Cage Code:'],
+                            info['CAGE Code:'],
                             info['Year Established:'],
                             info['GSA Advantage Contract(s):'],
                             info['Ownership and Self-Certifications:'],
@@ -289,23 +297,24 @@ class SbaSpider(scrapy.Spider):
                             keywords,
                             performance_json,
                             list_id,
-                            info['Quality Assurance Standards'],
-                            info['Electronic Data Interchange capable?'],
-                            info['Export Business Activities'],
-                            info['Exporting to'],
+                            info['Quality Assurance Standards:'],
+                            info['Electronic Data Interchange capable?:'],
+                            info['Export Business Activities:'],
+                            info['Exporting to:'],
                             info['Service Bonding Level (aggregate)'],
                             info['Service Bonding Level (per contract)'],
                             info['Construction Bonding Level (aggregate)'],
                             info['Construction Bonding Level (per contract)'],
-                            info['Accepts Government Credit Card?'],
+                            info['Accepts Government Credit Card?:'],
                             info['Desired Export Business Relationships:'],
                             info['Description of Export Objective(s):'],
                             office
                         )
                     )
                     self.conn.commit()
-                except:
+                except MySQLdb.Error, e:
                     print("Error %d: %s" % (e.args[0], e.args[1]))
+                    print traceback.format_exc()
         except:
             print "Error: unable to fecth profile data"
         return info
