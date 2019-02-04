@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0a5d27ed-0e0d-4d68-b623-363b260b9c65" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sba/spiders/sba.py" beforeDir="false" afterPath="$PROJECT_DIR$/sba/spiders/sba.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -12,15 +11,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/sba$Sba.coverage" NAME="Sba Coverage Results" MODIFIED="1549218976963" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sba" />
+    <SUITE FILE_PATH="coverage/sba$Sba.coverage" NAME="Sba Coverage Results" MODIFIED="1549251004101" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sba" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sba/spiders/sba.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="193" column="34" selection-start-line="193" selection-start-column="34" selection-end-line="193" selection-end-column="34" />
+            <state relative-caret-position="315">
+              <caret line="305" column="38" selection-start-line="305" selection-start-column="38" selection-end-line="305" selection-end-column="38" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -31,8 +30,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../py_venv/local/lib/python2.7/site-packages/twisted/internet/defer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="628" selection-start-line="628" selection-end-line="628" />
+            <state relative-caret-position="290">
+              <caret line="662" selection-start-line="662" selection-end-line="662" />
             </state>
           </provider>
         </entry>
@@ -208,12 +207,12 @@
       <workItem from="1548865609621" duration="371000" />
       <workItem from="1548952833146" duration="1289000" />
       <workItem from="1549022160651" duration="1903000" />
-      <workItem from="1549064964766" duration="48507000" />
+      <workItem from="1549064964766" duration="58258000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107400000" />
+    <option name="totallyTimeSpent" value="117151000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="40" y="-11" width="1881" height="1092" extended-state="6" />
@@ -257,13 +256,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/sba/spiders/sba.py</url>
-          <line>242</line>
+          <line>310</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/sba/spiders/sba.py</url>
-          <line>157</line>
-          <option name="timeStamp" value="85" />
+          <line>243</line>
+          <option name="timeStamp" value="91" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -274,9 +273,29 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="response.xpath('//h3[contains(text(), &quot;Business Development Servicing Office&quot;)]/following-sibling::div[@class=&quot;indent_same_as_profilehead&quot;]/text()').extract_first()" language="Python" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>response.xpath('//h3[contains(text(), &quot;Business Development Servicing Office&quot;)]/following-sibling::div[@class=&quot;indent_same_as_profilehead&quot;]/text()').extract_first()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>response.xpath('//h3[contains(text(), &quot;Miscellaneous&quot;)]/following-sibling::div[@class=&quot;profileline&quot;]//text()').extract()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>info['naics_codes']</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>self.cursor.execute(                             &quot;&quot;&quot;SELECT id FROM profile_list WHERE contact = %s AND economic_id = %s&quot;&quot;&quot;,                             (datum['Contact'], economic_id,)                         )</expression-string>
         <language-id>Python</language-id>
@@ -309,21 +328,6 @@
       </expression>
       <expression>
         <expression-string>datum['Name and Trade Name of Firm']</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>datum[keys[6]]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>datum[keys[Col01]]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>datum[keys[1]]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -489,15 +493,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../py_venv/local/lib/python2.7/site-packages/twisted/internet/defer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="628" selection-start-line="628" selection-end-line="628" />
+        <state relative-caret-position="290">
+          <caret line="662" selection-start-line="662" selection-end-line="662" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sba/spiders/sba.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="193" column="34" selection-start-line="193" selection-start-column="34" selection-end-line="193" selection-end-column="34" />
+        <state relative-caret-position="315">
+          <caret line="305" column="38" selection-start-line="305" selection-start-column="38" selection-end-line="305" selection-end-column="38" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
