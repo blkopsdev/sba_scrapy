@@ -50,13 +50,13 @@ class SbaSpider(scrapy.Spider):
                         dont_filter=True
                     )
         except MySQLdb.Error, e:
-            print("Error %d: %s" % (e.args[0], e.args[1]))
+            print traceback.format_exc()
 
 
     def parse_search(self, response):
-        econmic_group = response.xpath('//div[contains(@class, "qmshead") and a[@href]]')
+        economic_group = response.xpath('//div[contains(@class, "qmshead") and a[@href]]')
 
-        for g in econmic_group:
+        for g in economic_group:
             key = g.xpath('.//a/text()').extract_first()
             number_of_firms = g.xpath('./following-sibling::div[contains(@class, "qmsinfo")]/a[@href]/text()').extract_first()
             if key and number_of_firms:
@@ -79,14 +79,14 @@ class SbaSpider(scrapy.Spider):
                 # Update or Insert econmic_group
                 try:
                     self.cursor.execute(
-                        """SELECT id FROM economic_group WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
+                        """SELECT id FROM economic WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
                     )
                     ecom = self.cursor.fetchall()
 
                     if not ecom:
                         try:
                             self.cursor.execute(
-                                """INSERT INTO economic_group ( economic_group, naics_id, state, num_of_firms)
+                                """INSERT INTO economic ( economic_group, naics_id, state, num_of_firms)
                                 VALUES (%s, %s, %s, %s)""", (
                                     key,
                                     naics_id,
@@ -96,13 +96,13 @@ class SbaSpider(scrapy.Spider):
                             )
                             self.conn.commit()
                             self.cursor.execute(
-                                """SELECT id FROM economic_group WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
+                                """SELECT id FROM economic WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
                             )
                             ecom = self.cursor.fetchall()
                             economic_id = ecom[0][0]
 
                         except MySQLdb.Error, e:
-                            print("Error %d: %s" % (e.args[0], e.args[1]))
+                            print traceback.format_exc()
                     else:
                         economic_id = ecom[0][0]
 
@@ -110,7 +110,7 @@ class SbaSpider(scrapy.Spider):
                         'economic_id': economic_id
                     })
                 except:
-                    print "Error: unable to fecth economic group data"
+                    print traceback.format_exc()
 
             link = g.xpath('./following-sibling::div[contains(@class, "qmsinfo")]/a[@href]/@href').extract_first()
             key = re.search(r'javascript:document\.HotlinkForm\.(.*?)\.value', link)
@@ -148,51 +148,53 @@ class SbaSpider(scrapy.Spider):
                 value = tr.xpath('.//td[contains(@headers, "{}")]/text()'.format(id)).extract_first()
                 datum[keys[idx]] = value
 
-                link = tr.xpath('.//a/@href').extract_first()
+            list_id = None
 
-                yield scrapy.Request(urljoin(response.url, link), callback=self.get_data, dont_filter=True,
-                                 meta=response.meta)
-
-            # Insert or Update profile list table
             try:
                 self.cursor.execute(
-                    """SELECT id FROM profile_list WHERE contact = %s AND economic_id = %s""",
+                    """SELECT id FROM profilelists WHERE contact = %s AND economic_id = %s""",
                     (datum['Contact'], economic_id,)
                 )
                 list = self.cursor.fetchall()
-
-                if not list:
-                    try:
-                        self.cursor.execute(
-                            """INSERT INTO profile_list ( trade_name, contact, address, capabilities, economic_id)
-                            VALUES (%s, %s, %s, %s, %s)""", (
-                                datum['Name and Trade Name of Firm'],
-                                datum['Contact'],
-                                datum['Address and City, State Zip'],
-                                datum['Capabilities Narrative'],
-                                economic_id
-                            )
-                        )
-                        self.conn.commit()
-
-                        self.cursor.execute(
-                            """SELECT id FROM profile_list WHERE contact = %s AND economic_id = %s""",
-                            (datum['Contact'], economic_id,)
-                        )
-                        list = self.cursor.fetchall()
-                        list_id = list[0][0]
-                    except MySQLdb.Error, e:
-                        print("Error %d: %s" % (e.args[0], e.args[1]))
-                else:
-                    list_id = list[0][0]
-
             except:
                 print traceback.format_exc()
                 print "Error: unable to fecth profile list data"
 
-            response.meta.update({
-                'list_id': list_id
-            })
+            try:
+                if not list:
+                    self.cursor.execute(
+                        """INSERT INTO profilelists ( trade_name, contact, address, capabilities, economic_id, naics_id, state)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)""", (
+                            datum['Name and Trade Name of Firm'],
+                            datum['Contact'],
+                            datum['Address and City, State Zip'],
+                            datum['Capabilities Narrative'],
+                            economic_id,
+                            response.meta.get('naics'),
+                            response.meta.get('state')
+                        )
+                    )
+                    self.conn.commit()
+
+                    self.cursor.execute(
+                        """SELECT id FROM profilelists WHERE contact = %s AND economic_id = %s""",
+                        (datum['Contact'], economic_id,)
+                    )
+                    list = self.cursor.fetchall()
+                    list_id = list[0][0]
+                else:
+                    list_id = list[0][0]
+            except:
+                print traceback.format_exc()
+                print "Error: unable to fecth profile list data"
+            else:
+                response.meta.update({
+                    'list_id': list_id
+                })
+
+                link = tr.xpath('.//a/@href').extract_first()
+                yield scrapy.Request(urljoin(response.url, link), callback=self.get_data, dont_filter=True,
+                                 meta=response.meta)
 
     def get_data(self, response):
 
@@ -261,9 +263,9 @@ class SbaSpider(scrapy.Spider):
                         established_year, gsa_contact, ownership, sba_8a_num, sba_8a_ent, sba_8a_exit,\
                         ishubzone_cert, 8a_jv_ent, 8a_jv_exit, naics_table, keywords, performance_history, list_id,\
                         quality_assurance, electronic_data, export_business_activity, exporting_to, bonding_agg, bonding_cont, \
-                        con_bonding_agg, con_bonding_cont, accept_card, desired_export_business, export_descrption, business_office) VALUES (%s, %s, %s, %s,\
+                        con_bonding_agg, con_bonding_cont, accept_card, desired_export_business, export_descrption, business_office, naics_id, economic_id) VALUES (%s, %s, %s, %s,\
                         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
-                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
+                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
                             info['User ID:'],
                             info['Name of Firm:'],
                             info['Trade Name ("Doing Business As ..."):'],
@@ -307,7 +309,9 @@ class SbaSpider(scrapy.Spider):
                             info['Accepts Government Credit Card?:'],
                             info['Desired Export Business Relationships:'],
                             info['Description of Export Objective(s):'],
-                            office
+                            office,
+                            response.meta.get('naics'),
+                            response.meta.get('economic_id')
                         )
                     )
                     self.conn.commit()

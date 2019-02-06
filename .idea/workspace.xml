@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0a5d27ed-0e0d-4d68-b623-363b260b9c65" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sba/spiders/sba.py" beforeDir="false" afterPath="$PROJECT_DIR$/sba/spiders/sba.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -11,18 +12,27 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/sba$Sba.coverage" NAME="Sba Coverage Results" MODIFIED="1549283948949" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sba" />
+    <SUITE FILE_PATH="coverage/sba$Sba.coverage" NAME="Sba Coverage Results" MODIFIED="1549444563049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sba" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sba/spiders/sba.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="265" column="71" selection-start-line="265" selection-start-column="71" selection-end-line="265" selection-end-column="71" />
+            <state relative-caret-position="313">
+              <caret line="179" column="54" selection-start-line="179" selection-start-column="54" selection-end-line="179" selection-end-column="54" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../py_venv/local/lib/python2.7/site-packages/twisted/internet/defer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="155">
+              <caret line="653" selection-start-line="653" selection-end-line="653" />
             </state>
           </provider>
         </entry>
@@ -84,7 +94,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -101,6 +110,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -186,33 +196,35 @@
       <workItem from="1548865609621" duration="371000" />
       <workItem from="1548952833146" duration="1289000" />
       <workItem from="1549022160651" duration="1903000" />
-      <workItem from="1549064964766" duration="69468000" />
+      <workItem from="1549064964766" duration="73850000" />
+      <workItem from="1549368212748" duration="11670000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128361000" />
+    <option name="totallyTimeSpent" value="144413000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="40" y="-11" width="1881" height="1092" extended-state="6" />
+    <frame x="-1" y="-11" width="1922" height="1053" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20076378" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19850586" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Concurrent Activities Diagram" weight="0.3291536" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.40961337" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4597701" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49972722" visible="true" weight="0.40958604" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49972722" weight="0.24074075" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32810867" />
       <window_info anchor="bottom" id="Python Console" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50027275" side_tool="true" weight="0.4597701" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
+      <window_info anchor="bottom" id="Concurrent Activities Diagram" order="13" weight="0.3291536" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -232,11 +244,6 @@
           <line>32</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/sba/spiders/sba.py</url>
-          <line>318</line>
-          <option name="timeStamp" value="102" />
-        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -248,12 +255,39 @@
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="datum['Contact']" language="Python" />
+        <watch expression="response.meta.get('list_id')" language="Python" />
+        <watch expression="response.meta.get('economic_id')" language="Python" />
+        <watch expression="response.meta.get('naics')" language="Python" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>response.meta.get('economic_id')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>response.meta.get('naics')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>response.meta.get('naics_id')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>response.meta.get('list_id')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>list_id</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>datum['Contact']</expression-string>
         <language-id>Python</language-id>
@@ -279,28 +313,13 @@
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>response.xpath('//h3[contains(text(), &quot;Business Development Servicing Office&quot;)]/following-sibling::div[@class=&quot;indent_same_as_profilehead&quot;]/text()').extract_first()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>response.xpath('//h3[contains(text(), &quot;Business Development Servicing Office&quot;)]/following-sibling::div[@class=&quot;indent_same_as_profilehead&quot;]/text()').extract_first().strip()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>office</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>info['Desired Export Business Relationships:']</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
     <expressions id="setValue">
+      <expression>
+        <expression-string>list_id</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>[&lt;Selector xpath='//div[@class=&quot;profileline&quot; and position() != 1]' data=u'&lt;div class=&quot;profileline&quot;&gt;\r\n    &lt;div clas'&gt;, &lt;Selector xpath='//div[@class=&quot;profileline&quot; and position() != 1]' data=u'&lt;div class=&quot;profileline&quot;&gt;\r\n    &lt;div clas'&gt;, &lt;Selector xpath='//div[@class=&quot;profileline&quot; and position() != 1]' data=u'&lt;div class=&quot;profileline&quot;&gt;\r\n    &lt;div clas'&gt;, &lt;Selector xpath='//div[@class=&quot;profileline&quot; and position() != 1]' data=u'&lt;div class=&quot;profileline&quot;&gt;\r\n    &lt;div clas'&gt;, &lt;Selector xpath='//div[@class=&quot;profileline&quot; and position() != 1]' data=u'&lt;div class=&quot;profileline&quot;&gt;\r\n    &lt;div clas'&gt;, &lt;Selector xpath='//div[@class=&quot;profileline&quot; and position() != 1]' data=u'&lt;div class=&quot;profileline&quot;&gt;\r\n    &lt;div clas'&gt;, &lt;Selector xpath='//div[@class=&quot;profileline&quot; and position() != 1]' data=u'&lt;div class=&quot;profileline&quot;&gt;\r\n    &lt;div clas'&gt;, &lt;Selector xpath='//div[@class=&quot;profileline&quot; and position() != 1]' data=u'&lt;div class=&quot;profileline&quot;&gt;\r\n    &lt;div clas'&gt;, &lt;Selector xpath='//div[@class=&quot;pr...</expression-string>
         <language-id>Python</language-id>
@@ -310,79 +329,17 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://D:/Marin Cess - Michael/pepco/pepco/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/MySQLdb/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="80" selection-start-line="80" selection-end-line="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/spiders/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="88" column="8" selection-start-line="88" selection-start-column="8" selection-end-line="88" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/crawler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="250" selection-start-line="250" selection-end-line="250" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/spiderloader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="60" selection-start-line="60" selection-end-line="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/utils/misc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="72" selection-start-line="72" selection-end-line="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python2.7/site-packages/scrapy/cmdline.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="148" selection-start-line="148" selection-end-line="148" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/spidermiddlewares/depth.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="57" selection-start-line="57" selection-end-line="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/spidermiddlewares/urllength.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/spidermiddlewares/referer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4980">
-          <caret line="343" column="27" selection-start-line="343" selection-start-column="27" selection-end-line="343" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sba/.~lock.result.csv#">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/twisted/internet/defer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="653" selection-start-line="653" selection-end-line="653" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/MySQLdb/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/spiders/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/crawler.py" />
+    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/spiderloader.py" />
+    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/utils/misc.py" />
+    <entry file="file://$PROJECT_DIR$/venv/lib/python2.7/site-packages/scrapy/cmdline.py" />
+    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/spidermiddlewares/depth.py" />
+    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/spidermiddlewares/urllength.py" />
+    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/scrapy/spidermiddlewares/referer.py" />
+    <entry file="file://$PROJECT_DIR$/sba/.~lock.result.csv#" />
+    <entry file="file://$PROJECT_DIR$/venv/local/lib/python2.7/site-packages/twisted/internet/defer.py" />
     <entry file="file:///usr/lib/python2.7/importlib/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -442,24 +399,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../py_venv/local/lib/python2.7/site-packages/twisted/internet/defer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="662" selection-start-line="662" selection-end-line="662" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sba/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret line="20" column="23" lean-forward="true" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sba/pipelines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" selection-start-line="7" selection-end-line="7" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -470,10 +413,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sba/pipelines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../py_venv/local/lib/python2.7/site-packages/twisted/internet/defer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="653" selection-start-line="653" selection-end-line="653" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sba/spiders/sba.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="265" column="71" selection-start-line="265" selection-start-column="71" selection-end-line="265" selection-end-column="71" />
+        <state relative-caret-position="313">
+          <caret line="179" column="54" selection-start-line="179" selection-start-column="54" selection-end-line="179" selection-end-column="54" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
