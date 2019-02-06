@@ -146,6 +146,7 @@ class SbaSpider(scrapy.Spider):
             datum = {}
             for idx, id in enumerate(ids):
                 value = tr.xpath('.//td[contains(@headers, "{}")]/text()'.format(id)).extract_first()
+                value = tr.xpath('.//td[contains(@headers, "{}")]/a/text()'.format(id)).extract_first() if not value else value
                 datum[keys[idx]] = value
 
             list_id = None
@@ -171,7 +172,7 @@ class SbaSpider(scrapy.Spider):
                             datum['Capabilities Narrative'],
                             economic_id,
                             response.meta.get('naics'),
-                            response.meta.get('state')
+                            response.meta.get('State')
                         )
                     )
                     self.conn.commit()
