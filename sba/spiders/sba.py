@@ -74,6 +74,7 @@ class SbaSpider(scrapy.Spider):
                     )
                     results = self.cursor.fetchall()
                     naics_id = results[0][0]
+
                 except:
                     print "Error: unable to fecth naics data"
                 # Update or Insert econmic_group
@@ -107,6 +108,7 @@ class SbaSpider(scrapy.Spider):
                         economic_id = ecom[0][0]
 
                     response.meta.update({
+                        'naics_id': naics_id,
                         'economic_id': economic_id
                     })
                 except:
@@ -146,7 +148,10 @@ class SbaSpider(scrapy.Spider):
             datum = {}
             for idx, id in enumerate(ids):
                 value = tr.xpath('.//td[contains(@headers, "{}")]/text()'.format(id)).extract_first()
-                value = tr.xpath('.//td[contains(@headers, "{}")]/a/text()'.format(id)).extract_first() if not value else value
+                if not value:
+                    value = tr.xpath('.//td[contains(@headers, "{}")]/a/text()'.format(id)).extract_first()
+                    link = tr.xpath('.//td[contains(@headers, "{}")]/a[@href]/@href').extract_first()
+                    # duns = re.search(r'DUNS=\.(.*?)', link)
                 datum[keys[idx]] = value
 
             list_id = None
@@ -171,7 +176,7 @@ class SbaSpider(scrapy.Spider):
                             datum['Address and City, State Zip'],
                             datum['Capabilities Narrative'],
                             economic_id,
-                            response.meta.get('naics'),
+                            response.meta.get('naics_id'),
                             response.meta.get('State')
                         )
                     )
@@ -264,9 +269,9 @@ class SbaSpider(scrapy.Spider):
                         established_year, gsa_contact, ownership, sba_8a_num, sba_8a_ent, sba_8a_exit,\
                         ishubzone_cert, 8a_jv_ent, 8a_jv_exit, naics_table, keywords, performance_history, list_id,\
                         quality_assurance, electronic_data, export_business_activity, exporting_to, bonding_agg, bonding_cont, \
-                        con_bonding_agg, con_bonding_cont, accept_card, desired_export_business, export_descrption, business_office, naics_id, economic_id) VALUES (%s, %s, %s, %s,\
+                        con_bonding_agg, con_bonding_cont, accept_card, desired_export_business, export_descrption, business_office, naics_id, economic_id, contact) VALUES (%s, %s, %s, %s,\
                         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
-                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
+                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
                             info['User ID:'],
                             info['Name of Firm:'],
                             info['Trade Name ("Doing Business As ..."):'],
@@ -312,7 +317,8 @@ class SbaSpider(scrapy.Spider):
                             info['Description of Export Objective(s):'],
                             office,
                             response.meta.get('naics'),
-                            response.meta.get('economic_id')
+                            response.meta.get('economic_id'),
+                            info['Contact Person:']
                         )
                     )
                     self.conn.commit()
