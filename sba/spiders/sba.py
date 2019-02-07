@@ -58,7 +58,7 @@ class SbaSpider(scrapy.Spider):
 
         for g in economic_group:
             key = g.xpath('.//a/text()').extract_first()
-            number_of_firms = g.xpath('./following-sibling::div[contains(@class, "qmsinfo")]/a[@href]/text()').extract_first()
+            number_of_firms = g.xpath('./following-sibling::div[contains(@class, "qmsinfo")]/a[@href]/text()').re_first(r'\d+')
             if key and number_of_firms:
                 response.meta.update({
                     'econmic_key': key,
@@ -80,14 +80,14 @@ class SbaSpider(scrapy.Spider):
                 # Update or Insert econmic_group
                 try:
                     self.cursor.execute(
-                        """SELECT id FROM economic WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
+                        """SELECT id FROM economics WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
                     )
                     ecom = self.cursor.fetchall()
 
                     if not ecom:
                         try:
                             self.cursor.execute(
-                                """INSERT INTO economic ( economic_group, naics_id, state, num_of_firms)
+                                """INSERT INTO economics ( economic_group, naics_id, state, num_of_firms)
                                 VALUES (%s, %s, %s, %s)""", (
                                     key,
                                     naics_id,
@@ -97,7 +97,7 @@ class SbaSpider(scrapy.Spider):
                             )
                             self.conn.commit()
                             self.cursor.execute(
-                                """SELECT id FROM economic WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
+                                """SELECT id FROM economics WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
                             )
                             ecom = self.cursor.fetchall()
                             economic_id = ecom[0][0]
@@ -113,7 +113,10 @@ class SbaSpider(scrapy.Spider):
                     })
                 except:
                     print traceback.format_exc()
-
+            economig_group = g.xpath('.//a/text()').extract_first()
+            response.meta.update({
+                'economic_group': economig_group
+            })
             link = g.xpath('./following-sibling::div[contains(@class, "qmsinfo")]/a[@href]/@href').extract_first()
             key = re.search(r'javascript:document\.HotlinkForm\.(.*?)\.value', link)
             value = re.search(r'value = \'(.*?)\';', link)
@@ -140,8 +143,9 @@ class SbaSpider(scrapy.Spider):
         ).extract()
 
         trs = response.xpath(
-            '//table[@id="ProfileTable"]//tr[@class="AlternatingRowBGC4Form1"]'
+            '//table[@id="ProfileTable"]//tr[contains(@class, "AlternatingRowBGC4Form")]'
         )
+
         economic_id = response.meta.get('economic_id')
 
         for tr in trs:
@@ -206,7 +210,7 @@ class SbaSpider(scrapy.Spider):
 
         keywords = response.xpath('//h3[contains(text(), "Keywords")]/following-sibling::div[@class="indent_same_as_profilehead"]/text()').extract_first().strip()
         office = response.xpath('//h3[contains(text(), "Business Development Servicing Office")]/following-sibling::div[@class="indent_same_as_profilehead"]/text()').extract_first().strip()
-
+        capabilities = response.xpath('//h3[contains(text(), "Capabilities Narrative:")]/following-sibling::div[@class="indent_same_as_profilehead"]/text()').extract_first().strip()
         # naics_codes = response.xpath('//table[@summary="NAICS Codes"]//tr//td[contains(@headers, "C2")]/text()').extract()
         ids = response.xpath(
             '//table[@summary="NAICS Codes"]//tr//th[@id and text()]/@id'
@@ -267,11 +271,11 @@ class SbaSpider(scrapy.Spider):
                         """INSERT INTO profiles (user_id, name_of_firm, trade_name, duns_num, p_dunms_num, address1, address2, \
                         city, state, zip, phone, fax, email, www_page, ecom_website, county_code, cong_district, ms_area, cage_code,\
                         established_year, gsa_contact, ownership, sba_8a_num, sba_8a_ent, sba_8a_exit,\
-                        ishubzone_cert, 8a_jv_ent, 8a_jv_exit, naics_table, keywords, performance_history, list_id,\
+                        ishubzone_cert, jv_ent, jv_exit, naics_table, keywords, performance_history, list_id,\
                         quality_assurance, electronic_data, export_business_activity, exporting_to, bonding_agg, bonding_cont, \
-                        con_bonding_agg, con_bonding_cont, accept_card, desired_export_business, export_descrption, business_office, naics_id, economic_id, contact) VALUES (%s, %s, %s, %s,\
+                        con_bonding_agg, con_bonding_cont, accept_card, desired_export_business, export_descrption, business_office, naics, economic, contact, capabilities) VALUES (%s, %s, %s, %s,\
                         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
-                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
+                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
                             info['User ID:'],
                             info['Name of Firm:'],
                             info['Trade Name ("Doing Business As ..."):'],
@@ -317,8 +321,9 @@ class SbaSpider(scrapy.Spider):
                             info['Description of Export Objective(s):'],
                             office,
                             response.meta.get('naics'),
-                            response.meta.get('economic_id'),
-                            info['Contact Person:']
+                            response.meta.get('economic_group'),
+                            info['Contact Person:'],
+                            capabilities
                         )
                     )
                     self.conn.commit()
