@@ -263,7 +263,9 @@ class SbaSpider(scrapy.Spider):
             info[key] = value.encode('utf-8')
         try:
             list_id = response.meta.get('list_id')
-            self.cursor.execute("""SELECT id FROM profiles WHERE email = %s AND list_id = %s""", (info['E-mail Address:'], list_id,))
+            naics = response.meta.get('naics')
+
+            self.cursor.execute("""SELECT id FROM profiles WHERE email = %s AND naics = %s""", (info['E-mail Address:'], naics, ))
             profile = self.cursor.fetchall()
             if not profile:
                 try:
