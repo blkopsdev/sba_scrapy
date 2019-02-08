@@ -27,32 +27,30 @@ class SbaSpider(scrapy.Spider):
     def parse(self, response):
 
         states = response.xpath('//select[@id="EltState"]/option[position()!=1]/@value').extract()
-        # try:
-        #     self.cursor.execute("""SELECT naics FROM naics""")
-        #     naicses = self.cursor.fetchall()
-        #
-        #     for naics in naicses:
-        #         for state in states:
-        #             data = {
-        #                 'AnyAllNaics': 'All',
-        #                 'naics': naics,
-        #                 'State': state
-        #             }
-        #             yield scrapy.FormRequest.from_response(
-        #                 response,
-        #                 formname='SearchForm',
-        #                 formdata=data,
-        #                 callback=self.parse_search,
-        #                 meta={
-        #                     'naics': naics,
-        #                     'State': state
-        #                 },
-        #                 dont_filter=True
-        #             )
-        # except MySQLdb.Error, e:
-        #     print traceback.format_exc()
+        try:
+            self.cursor.execute("""SELECT naics FROM naics""")
+            naicses = self.cursor.fetchall()
 
-        naics = '541519'
+            for naics in naicses:
+                for state in states:
+                    data = {
+                        'AnyAllNaics': 'All',
+                        'naics': naics,
+                        'State': state
+                    }
+                    yield scrapy.FormRequest.from_response(
+                        response,
+                        formname='SearchForm',
+                        formdata=data,
+                        callback=self.parse_search,
+                        meta={
+                            'naics': naics,
+                            'State': state
+                        },
+                        dont_filter=True
+                    )
+        except MySQLdb.Error, e:
+            print traceback.format_exc()
 
         for state in states:
             data = {
@@ -284,7 +282,7 @@ class SbaSpider(scrapy.Spider):
             list_id = response.meta.get('list_id')
             naics = response.meta.get('naics')
 
-            self.cursor.execute("""SELECT id FROM profiles WHERE email = %s AND naics = %s""",(info['E-mail Address:'], naics[0].encode('utf-8'), ))
+            self.cursor.execute("""SELECT id FROM profiles WHERE email = %s AND naics = %s""",(info['E-mail Address:'], naics, ))
             profile = self.cursor.fetchall()
         except:
             print traceback.format_exc()
