@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0a5d27ed-0e0d-4d68-b623-363b260b9c65" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/sba/spiders/naics.py" beforeDir="false" afterPath="$PROJECT_DIR$/sba/spiders/naics.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sba/spiders/sba.py" beforeDir="false" afterPath="$PROJECT_DIR$/sba/spiders/sba.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -12,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/sba$Sba.coverage" NAME="Sba Coverage Results" MODIFIED="1549591755359" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sba" />
+    <SUITE FILE_PATH="coverage/sba$Sba.coverage" NAME="Sba Coverage Results" MODIFIED="1549616195486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sba" />
     <SUITE FILE_PATH="coverage/sba$Naics.coverage" NAME="Naics Coverage Results" MODIFIED="1549558699615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sba" />
   </component>
   <component name="FileEditorManager">
@@ -20,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sba/spiders/sba.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="267" column="89" selection-start-line="267" selection-end-line="268" />
+            <state relative-caret-position="303">
+              <caret line="54" column="24" lean-forward="true" selection-start-line="54" selection-start-column="24" selection-end-line="54" selection-end-column="24" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -237,12 +236,12 @@
       <workItem from="1549022160651" duration="1903000" />
       <workItem from="1549064964766" duration="73850000" />
       <workItem from="1549368212748" duration="21862000" />
-      <workItem from="1549464741677" duration="22467000" />
+      <workItem from="1549464741677" duration="23968000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="177072000" />
+    <option name="totallyTimeSpent" value="178573000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-11" width="1922" height="1053" extended-state="6" />
@@ -490,8 +489,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sba/spiders/sba.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="267" column="89" selection-start-line="267" selection-end-line="268" />
+        <state relative-caret-position="303">
+          <caret line="54" column="24" lean-forward="true" selection-start-line="54" selection-start-column="24" selection-end-line="54" selection-end-column="24" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
