@@ -280,8 +280,8 @@ class SbaSpider(scrapy.Spider):
             if not value:
                 value = ''
             info[key] = value.encode('utf-8')
+            list_id = response.meta.get('list_id')
         # try:
-        #     list_id = response.meta.get('list_id')
         #     naics = response.meta.get('naics')
         #     economic =  response.meta.get('economic_group').encode('utf-8')
         #     self.cursor.execute("""SELECT id FROM profiles WHERE email = '{}' AND naics LIKE '%{}%' AND economic LIKE '%{}%'""".format(info['E-mail Address:'], naics[0].encode('utf-8'), economic,))
