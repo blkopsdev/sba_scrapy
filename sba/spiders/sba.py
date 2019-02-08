@@ -52,7 +52,7 @@ class SbaSpider(scrapy.Spider):
         # except MySQLdb.Error, e:
         #     print traceback.format_exc()
 
-        naics = '541890'
+        naics = '541519'
 
         for state in states:
             data = {
@@ -282,8 +282,9 @@ class SbaSpider(scrapy.Spider):
             info[key] = value.encode('utf-8')
         try:
             list_id = response.meta.get('list_id')
-            economic =  response.meta.get('economic_group').encode('utf-8')
-            self.cursor.execute("""SELECT id FROM profiles WHERE email = %s AND economic =%s""", (info['E-mail Address:'], economic,))
+            naics = response.meta.get('naics')
+
+            self.cursor.execute("""SELECT id FROM profiles WHERE email = %s AND naics = %s""",(info['E-mail Address:'], naics[0].encode('utf-8'), ))
             profile = self.cursor.fetchall()
         except:
             print traceback.format_exc()
