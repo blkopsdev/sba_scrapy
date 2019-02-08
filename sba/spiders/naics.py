@@ -24,7 +24,7 @@ class NaicsSpider(scrapy.Spider):
         trs = response.xpath(
             '//table[contains(@class, "table-striped")]//tr[contains(@class, "groupRow")]'
         )
-        
+
         for tr in trs:
             naics = tr.xpath('./following-sibling::td[@class="first-child"]/text()').extract_first()
 
@@ -39,4 +39,4 @@ class NaicsSpider(scrapy.Spider):
                     self.cursor.execute("""INSERT INTO naics (naics) VALUES (%s)""", (naics,))
 
                 except MySQLdb.Error, e:
-                print traceback.format_exc()
+                    print traceback.format_exc()
