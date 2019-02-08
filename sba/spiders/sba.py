@@ -52,7 +52,7 @@ class SbaSpider(scrapy.Spider):
         # except MySQLdb.Error, e:
         #     print traceback.format_exc()
 
-        naics = '541870'
+        naics = '541890'
 
         for state in states:
             data = {
@@ -280,81 +280,80 @@ class SbaSpider(scrapy.Spider):
             if not value:
                 value = ''
             info[key] = value.encode('utf-8')
-            list_id = response.meta.get('list_id')
-        # try:
-        #     naics = response.meta.get('naics')
-        #     economic =  response.meta.get('economic_group').encode('utf-8')
-        #     self.cursor.execute("""SELECT id FROM profiles WHERE email = '{}' AND naics LIKE '%{}%' AND economic LIKE '%{}%'""".format(info['E-mail Address:'], naics[0].encode('utf-8'), economic,))
-        #     profile = self.cursor.fetchall()
-        # except:
-        #     print traceback.format_exc()
-
-        # if not profile:
         try:
-            self.cursor.execute(
-                """INSERT INTO profiles (user_id, name_of_firm, trade_name, duns_num, p_dunms_num, address1, address2, \
-                city, state, zip, phone, fax, email, www_page, ecom_website, county_code, cong_district, ms_area, cage_code,\
-                established_year, gsa_contact, ownership, sba_8a_num, sba_8a_ent, sba_8a_exit,\
-                ishubzone_cert, jv_ent, jv_exit, naics_table, keywords, performance_history, list_id,\
-                quality_assurance, electronic_data, export_business_activity, exporting_to, bonding_agg, bonding_cont, \
-                con_bonding_agg, con_bonding_cont, accept_card, desired_export_business, export_descrption, business_office, naics, economic, contact, capabilities) VALUES (%s, %s, %s, %s,\
-                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
-                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
-                    info['User ID:'],
-                    info['Name of Firm:'],
-                    info['Trade Name ("Doing Business As ..."):'],
-                    info['DUNS Number:'],
-                    info['Parent DUNS Number:'],
-                    info['Address, line 1:'],
-                    info['Address, line 2:'],
-                    info['City:'],
-                    info['State:'],
-                    info['Zip:'],
-                    info['Phone Number:'],
-                    info['Fax Number:'],
-                    info['E-mail Address:'],
-                    info['WWW Page:'],
-                    info['E-Commerce Website:'],
-                    info['County Code (3 digit):'],
-                    info['Congressional District:'],
-                    info['Metropolitan Statistical Area:'],
-                    info['CAGE Code:'],
-                    info['Year Established:'],
-                    info['GSA Advantage Contract(s):'],
-                    info['Ownership and Self-Certifications:'],
-                    info['SBA 8(a) Case Number:'],
-                    info['SBA 8(a) Entrance Date:'],
-                    info['SBA 8(a) Exit Date:'],
-                    info['HUBZone Certified?:'],
-                    info['8(a) JV Entrance Date:'],
-                    info['8(a) JV Exit Date:'],
-                    naics_data,
-                    keywords,
-                    performance_json,
-                    list_id,
-                    info['Quality Assurance Standards:'],
-                    info['Electronic Data Interchange capable?:'],
-                    info['Export Business Activities:'],
-                    info['Exporting to:'],
-                    info['Service Bonding Level (aggregate)'],
-                    info['Service Bonding Level (per contract)'],
-                    info['Construction Bonding Level (aggregate)'],
-                    info['Construction Bonding Level (per contract)'],
-                    info['Accepts Government Credit Card?:'],
-                    info['Desired Export Business Relationships:'],
-                    info['Description of Export Objective(s):'],
-                    office,
-                    response.meta.get('naics'),
-                    response.meta.get('economic_group'),
-                    info['Contact Person:'],
-                    capabilities
-                )
-            )
-            self.conn.commit()
-        except MySQLdb.Error, e:
-            print("Error %d: %s" % (e.args[0], e.args[1]))
+            list_id = response.meta.get('list_id')
+            economic =  response.meta.get('economic_group').encode('utf-8')
+            self.cursor.execute("""SELECT id FROM profiles WHERE email = %s AND economic =%s""", (info['E-mail Address:'], economic,))
+            profile = self.cursor.fetchall()
+        except:
             print traceback.format_exc()
-        # else:
-        #     profile_id = profile[0][0]
+
+        if not profile:
+            try:
+                self.cursor.execute(
+                    """INSERT INTO profiles (user_id, name_of_firm, trade_name, duns_num, p_dunms_num, address1, address2, \
+                    city, state, zip, phone, fax, email, www_page, ecom_website, county_code, cong_district, ms_area, cage_code,\
+                    established_year, gsa_contact, ownership, sba_8a_num, sba_8a_ent, sba_8a_exit,\
+                    ishubzone_cert, jv_ent, jv_exit, naics_table, keywords, performance_history, list_id,\
+                    quality_assurance, electronic_data, export_business_activity, exporting_to, bonding_agg, bonding_cont, \
+                    con_bonding_agg, con_bonding_cont, accept_card, desired_export_business, export_descrption, business_office, naics, economic, contact, capabilities) VALUES (%s, %s, %s, %s,\
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
+                        info['User ID:'],
+                        info['Name of Firm:'],
+                        info['Trade Name ("Doing Business As ..."):'],
+                        info['DUNS Number:'],
+                        info['Parent DUNS Number:'],
+                        info['Address, line 1:'],
+                        info['Address, line 2:'],
+                        info['City:'],
+                        info['State:'],
+                        info['Zip:'],
+                        info['Phone Number:'],
+                        info['Fax Number:'],
+                        info['E-mail Address:'],
+                        info['WWW Page:'],
+                        info['E-Commerce Website:'],
+                        info['County Code (3 digit):'],
+                        info['Congressional District:'],
+                        info['Metropolitan Statistical Area:'],
+                        info['CAGE Code:'],
+                        info['Year Established:'],
+                        info['GSA Advantage Contract(s):'],
+                        info['Ownership and Self-Certifications:'],
+                        info['SBA 8(a) Case Number:'],
+                        info['SBA 8(a) Entrance Date:'],
+                        info['SBA 8(a) Exit Date:'],
+                        info['HUBZone Certified?:'],
+                        info['8(a) JV Entrance Date:'],
+                        info['8(a) JV Exit Date:'],
+                        naics_data,
+                        keywords,
+                        performance_json,
+                        list_id,
+                        info['Quality Assurance Standards:'],
+                        info['Electronic Data Interchange capable?:'],
+                        info['Export Business Activities:'],
+                        info['Exporting to:'],
+                        info['Service Bonding Level (aggregate)'],
+                        info['Service Bonding Level (per contract)'],
+                        info['Construction Bonding Level (aggregate)'],
+                        info['Construction Bonding Level (per contract)'],
+                        info['Accepts Government Credit Card?:'],
+                        info['Desired Export Business Relationships:'],
+                        info['Description of Export Objective(s):'],
+                        office,
+                        response.meta.get('naics'),
+                        response.meta.get('economic_group'),
+                        info['Contact Person:'],
+                        capabilities
+                    )
+                )
+                self.conn.commit()
+            except MySQLdb.Error, e:
+                print("Error %d: %s" % (e.args[0], e.args[1]))
+                print traceback.format_exc()
+        else:
+            profile_id = profile[0][0]
 
         return info
