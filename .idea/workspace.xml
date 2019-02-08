@@ -11,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/sba$Sba.coverage" NAME="Sba Coverage Results" MODIFIED="1549616195486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sba" />
+    <SUITE FILE_PATH="coverage/sba$Sba.coverage" NAME="Sba Coverage Results" MODIFIED="1549617615524" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sba" />
     <SUITE FILE_PATH="coverage/sba$Naics.coverage" NAME="Naics Coverage Results" MODIFIED="1549558699615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sba" />
   </component>
   <component name="FileEditorManager">
@@ -19,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sba/spiders/sba.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="54" column="24" lean-forward="true" selection-start-line="54" selection-start-column="24" selection-end-line="54" selection-end-column="24" />
+            <state relative-caret-position="60">
+              <caret line="277" column="87" lean-forward="true" selection-start-line="277" selection-start-column="87" selection-end-line="277" selection-end-column="87" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -236,12 +236,12 @@
       <workItem from="1549022160651" duration="1903000" />
       <workItem from="1549064964766" duration="73850000" />
       <workItem from="1549368212748" duration="21862000" />
-      <workItem from="1549464741677" duration="23968000" />
+      <workItem from="1549464741677" duration="25358000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="178573000" />
+    <option name="totallyTimeSpent" value="179963000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-11" width="1922" height="1053" extended-state="6" />
@@ -288,6 +288,11 @@
           <line>28</line>
           <option name="timeStamp" value="123" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/sba/spiders/sba.py</url>
+          <line>286</line>
+          <option name="timeStamp" value="127" />
+        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -303,7 +308,7 @@
         <watch expression="&quot;&quot;&quot;SELECT id FROM profiles WHERE email = '{}' AND naics LIKE '%{}%'&quot;&quot;&quot;.format(info['E-mail Address:'], naics )" language="Python" />
         <watch expression="len(trs)" language="Python" />
         <watch expression="response.meta" language="Python" />
-        <watch expression="self.cursor.execute(&quot;&quot;&quot;SELECT id FROM profiles WHERE email = '{}' AND naics LIKE '%{}%'&quot;&quot;&quot;.format(info['E-mail Address:'], naics[0].encode('utf-8'), ))" language="Python" />
+        <watch expression="self.cursor.execute(&quot;&quot;&quot;SELECT id FROM profiles WHERE email = '{}' AND naics LIKE '%{}%' AND economic LIKE '%{}%'&quot;&quot;&quot;.format(info['E-mail Address:'], naics[0].encode('utf-8'), economic,))" language="Python" />
         <watch expression="naics[0]" language="Python" />
         <watch expression="&quot;&quot;&quot;SELECT id FROM profiles WHERE email = {} AND naics LIKE '%{}%'&quot;&quot;&quot;.format(info['E-mail Address:'], naics, )" language="Python" />
       </configuration>
@@ -311,6 +316,11 @@
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>self.cursor.execute(&quot;&quot;&quot;SELECT id FROM profiles WHERE email = '{}' AND naics LIKE '%{}%' AND economic LIKE '%{}%'&quot;&quot;&quot;.format(info['E-mail Address:'], naics[0].encode('utf-8'), economic,))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>self.cursor.execute(&quot;&quot;&quot;SELECT id FROM profiles WHERE email = '{}' AND naics LIKE '%{}%'&quot;&quot;&quot;.format(info['E-mail Address:'], naics[0].encode('utf-8'), ))</expression-string>
         <language-id>Python</language-id>
@@ -489,8 +499,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sba/spiders/sba.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="54" column="24" lean-forward="true" selection-start-line="54" selection-start-column="24" selection-end-line="54" selection-end-column="24" />
+        <state relative-caret-position="60">
+          <caret line="277" column="87" lean-forward="true" selection-start-line="277" selection-start-column="87" selection-end-line="277" selection-end-column="87" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

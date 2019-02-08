@@ -10,8 +10,8 @@ class SbaSpider(scrapy.Spider):
     def __init__(self):
         self.conn = MySQLdb.connect(
             host='localhost',
-            user='root',
-            passwd='root',
+            user='scrapy',
+            passwd='Media123!',
             db='sba_scrapy',
             charset="utf8",
             use_unicode=True
@@ -283,8 +283,8 @@ class SbaSpider(scrapy.Spider):
         try:
             list_id = response.meta.get('list_id')
             naics = response.meta.get('naics')
-
-            self.cursor.execute("""SELECT id FROM profiles WHERE email = '{}' AND naics LIKE '%{}%'""".format(info['E-mail Address:'], naics[0].encode('utf-8'), ))
+            economic =  response.meta.get('economic_group').encode('utf-8')
+            self.cursor.execute("""SELECT id FROM profiles WHERE email = '{}' AND naics LIKE '%{}%' AND economic LIKE '%{}%'""".format(info['E-mail Address:'], naics[0].encode('utf-8'), economic,))
             profile = self.cursor.fetchall()
         except:
             print traceback.format_exc()
