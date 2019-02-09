@@ -37,6 +37,7 @@ class NaicsSpider(scrapy.Spider):
             if not naics_id:
                 try:
                     self.cursor.execute("""INSERT INTO naics (naics) VALUES (%s)""", (naics,))
+                    self.conn.commit()
 
                 except MySQLdb.Error, e:
                     print traceback.format_exc()
