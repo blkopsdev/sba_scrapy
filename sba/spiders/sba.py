@@ -84,7 +84,7 @@ class SbaSpider(scrapy.Spider):
 
                 naics = response.meta.get('naics')
                 state = response.meta.get('State')
-                # Get Naics ID from naics table
+                
                 try:
                     self.cursor.execute(
                         """SELECT id FROM naics WHERE naics = %s""", (naics,)
@@ -94,7 +94,7 @@ class SbaSpider(scrapy.Spider):
 
                 except:
                     print "Error: unable to fecth naics data"
-                # Update or Insert econmic_group
+
                 try:
                     self.cursor.execute(
                         """SELECT id FROM economics WHERE naics_id = %s AND economic_group = %s AND state = %s""", (naics_id, key, state,)
@@ -172,7 +172,7 @@ class SbaSpider(scrapy.Spider):
                 if not value:
                     value = tr.xpath('.//td[contains(@headers, "{}")]/a/text()'.format(id)).extract_first()
                     link = tr.xpath('.//td[contains(@headers, "{}")]/a[@href]/@href').extract_first()
-                    # duns = re.search(r'DUNS=\.(.*?)', link)
+                    
                 datum[keys[idx]] = value
 
             list_id = None
@@ -185,7 +185,6 @@ class SbaSpider(scrapy.Spider):
                 list = self.cursor.fetchall()
             except:
                 print traceback.format_exc()
-                print "Error: unable to fecth profile list data"
 
             try:
                 if not list:
@@ -213,7 +212,7 @@ class SbaSpider(scrapy.Spider):
                     list_id = list[0][0]
             except:
                 print traceback.format_exc()
-                print "Error: unable to fecth profile list data"
+
             else:
                 response.meta.update({
                     'list_id': list_id
@@ -228,7 +227,7 @@ class SbaSpider(scrapy.Spider):
         keywords = response.xpath('//h3[contains(text(), "Keywords")]/following-sibling::div[@class="indent_same_as_profilehead"]/text()').extract_first().strip()
         office = response.xpath('//h3[contains(text(), "Business Development Servicing Office")]/following-sibling::div[@class="indent_same_as_profilehead"]/text()').extract_first().strip()
         capabilities = response.xpath('//h3[contains(text(), "Capabilities Narrative:")]/following-sibling::div[@class="indent_same_as_profilehead"]/text()').extract_first().strip()
-        # naics_codes = response.xpath('//table[@summary="NAICS Codes"]//tr//td[contains(@headers, "C2")]/text()').extract()
+        
         ids = response.xpath(
             '//table[@summary="NAICS Codes"]//tr//th[@id and text()]/@id'
         ).extract()

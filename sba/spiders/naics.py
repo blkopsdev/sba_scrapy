@@ -8,9 +8,9 @@ class NaicsSpider(scrapy.Spider):
     def __init__(self):
         self.conn = MySQLdb.connect(
             host='localhost',
-            user='root',
-            passwd='root',
-            db='sba',
+            user='scrapy',
+            passwd='Media123!',
+            db='sba_scrapy',
             charset="utf8",
             use_unicode=True
         )
